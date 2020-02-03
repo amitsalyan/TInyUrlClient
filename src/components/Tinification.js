@@ -22,6 +22,14 @@ class  Tinification extends React.Component{
     }
 
     handleClick = () => {
+        if(!this.state.url){
+            this.setState({
+                message:'No URL found !!',
+                tinyUrl:'', 
+                href:''
+            })
+            return;
+        }
         postData('https://localhost:8443/api/tiny/genTinyLink',{url:this.state.url}).then((data) =>{
             if(data.status==='INVALID'){
                 this.setState({
@@ -43,8 +51,8 @@ class  Tinification extends React.Component{
     render(){
         return(
             <div className='wrapper'>
-                <UrlInput label='Enter URL:' value={this.state.url} handleOnChange={this.handleUrlInput} />
-                <TinifyButton url={this.state.url} handleTinify={this.handleClick}/>
+                <UrlInput label='Enter URL: ' value={this.state.url} handleOnChange={this.handleUrlInput} />
+                <TinifyButton name='Tinify' url={this.state.url} handleTinify={this.handleClick}/>
                 <TinifiedURL href={this.state.href} tinifiedUrl={this.state.tinyUrl} message={this.state.message}/>
             </div>
         )   
