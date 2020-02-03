@@ -1,0 +1,17 @@
+.result {
+    margin: 10px auto;
+}
+
+.success-result {
+    color: #008000;
+    border: solid 1px #008000;
+    background-color: seashell;
+    padding: 10px 20px;
+}
+
+.failed-result {
+    color: #ff0000;
+    border: solid 1px #ff0000;
+    background-color: seashell;
+    padding: 10px 20px;
+}

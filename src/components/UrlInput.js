@@ -1,12 +1,12 @@
 import React from 'react';
+import './UrlInput.css';
 
-const UrlInput = ({url, setUrl}) => {
-    return(
-        <div>
-            <label>Enter Url:</label>
-            <input value={url} placeholder='Enter your Url here' onChange={event => setUrl(event.target.value)}/>
+const UrlInput = ({label, value, handleOnChange}) => {
+    return (
+        <div className='url-input'>
+            <label htmlFor='url-input'>{label}</label>
+            <input id='url-input' value={value} onChange={event => handleOnChange(event.target.value)}/>
         </div>
-
     )
 }
 export default UrlInput;

@@ -1,18 +1,53 @@
 import React from 'react';
 import UrlInput from './UrlInput';
 import TinifyButton from './TinifyButton';
+import TinifiedURL from './TinifiedURL';
+import postData from '../data/fetch';
+import './styles.css';
 
-const Tinification = () => {
-    let url;
-    const setUrl = (value) => {
-        url = value;
+class  Tinification extends React.Component{
+    constructor(props){
+        super(props);
+        this.state={
+            url:'',
+            tinyUrl:'', 
+            href:'',
+            message:''
+            };
     }
-    return(
-        <>
-            <UrlInput url={url} setUrl={setUrl}/>
-            <TinifyButton url={url}/>
-        </>
-    )
-}
+    //componentWillMount ()
 
+    handleUrlInput = value => {
+        this.setState({url: value});
+    }
+
+    handleClick = () => {
+        postData('https://localhost:8443/api/tiny/genTinyLink',{url:this.state.url}).then((data) =>{
+            if(data.status==='INVALID'){
+                this.setState({
+                    message:'Invalid URL !!',
+                    tinyUrl:'', 
+                    href:''
+                })
+            }else if(data.status==='ACTIVE'){
+                this.setState({
+                    tinyUrl:data.tinyUrl, 
+                    href:data.tinyUrl,
+                    message:'Tinified Successfully !!'
+                })
+            }
+            ;
+        })
+    }
+
+    render(){
+        return(
+            <div className='wrapper'>
+                <UrlInput label='Enter URL:' value={this.state.url} handleOnChange={this.handleUrlInput} />
+                <TinifyButton url={this.state.url} handleTinify={this.handleClick}/>
+                <TinifiedURL href={this.state.href} tinifiedUrl={this.state.tinyUrl} message={this.state.message}/>
+            </div>
+        )   
+    }
+}
 export default Tinification;

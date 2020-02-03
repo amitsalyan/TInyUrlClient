@@ -1,0 +1,7 @@
+.url-input {
+    margin: 20px auto;
+}
+.url-input input {
+    width: 150px;
+    padding: 5px 10px;
+}

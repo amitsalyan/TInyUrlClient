@@ -1,17 +1,9 @@
 import React from 'react';
-import postData from '../data/fetch';
+import './TinifyButton.css';
 
-const TinifyButton = ({url}) => {
-    async function tinify = () =>{
-        let genTinyLink = {};
-		genTinyLink['url'] = url;
-        postData('https://localhost:8443/api/tiny/genTinyLink',{url:url}).then((data) =>{
-            console.log(data)
-        })
-
-    }
+const TinifyButton = ({url,handleTinify}) =>{
     return (
-        <button onClick={tinify()}>Tinify</button>
+        <button className='main-button' onClick={handleTinify}>Tinify</button>
     )
 }
 export default TinifyButton;
