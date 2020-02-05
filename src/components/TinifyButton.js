@@ -1,9 +1,9 @@
 import React from 'react';
-import './TinifyButton.css';
+import {Button} from '../commons/Button';
 
 const TinifyButton = ({name, url,handleTinify}) =>{
     return (
-        <button name={name} className='main-button' onClick={handleTinify}>{name}</button>
+        <Button name={name} onClick={handleTinify}>{name}</Button>
     )
 }
 export default TinifyButton;

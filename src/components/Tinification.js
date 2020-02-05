@@ -8,20 +8,25 @@ import './styles.css';
 class  Tinification extends React.Component{
     constructor(props){
         super(props);
-        this.state={
-            url:'',
-            tinyUrl:'', 
-            href:'',
-            message:''
+        this.state = {
+            url:'', // User imput 
+            tinyUrl:'', // Shorten URL result
+            href:'', 
+            message:'' 
             };
     }
-    //componentWillMount ()
 
     handleUrlInput = value => {
         this.setState({url: value});
     }
 
-    handleClick = () => {
+    handleKeyPress = event => {
+        if(event.key ==='Enter'){
+            this.fetchTinyUrl();
+        }
+    }
+
+    fetchTinyUrl = () => {
         if(!this.state.url){
             this.setState({
                 message:'No URL found !!',
@@ -30,7 +35,7 @@ class  Tinification extends React.Component{
             })
             return;
         }
-        postData('https://localhost:8443/api/tiny/genTinyLink',{url:this.state.url}).then((data) =>{
+        postData('http://localhost:8080/api/tiny/genTinyLink',{url:this.state.url}).then((data) =>{
             if(data.status==='INVALID'){
                 this.setState({
                     message:'Invalid URL !!',
@@ -48,12 +53,23 @@ class  Tinification extends React.Component{
         })
     }
 
+    _showResult = () => {
+        return this.state.message !== ''
+         ? <TinifiedURL href={this.state.href} tinifiedUrl={this.state.tinyUrl} message={this.state.message}/>
+         : ''
+    }
+
     render(){
         return(
             <div className='wrapper'>
-                <UrlInput label='Enter URL: ' value={this.state.url} handleOnChange={this.handleUrlInput} />
-                <TinifyButton name='Tinify' url={this.state.url} handleTinify={this.handleClick}/>
-                <TinifiedURL href={this.state.href} tinifiedUrl={this.state.tinyUrl} message={this.state.message}/>
+                <UrlInput 
+                    label='Enter URL: ' 
+                    value={this.state.url} 
+                    handleOnChange={this.handleUrlInput} 
+                    handleKeyPress={this.handleKeyPress}
+                />
+                <TinifyButton name='Tinify' url={this.state.url} handleTinify={this.fetchTinyUrl}/>
+                {this._showResult()}
             </div>
         )   
     }
